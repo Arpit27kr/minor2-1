@@ -5,11 +5,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import com.upes.devopsproj.entity.Product;
 import com.upes.devopsproj.entity.ProductCategory;
+import com.upes.devopsproj.entity.Workers;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 import java.util.ArrayList;
@@ -43,6 +46,12 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 		  .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
 
 
+		  config.getExposureConfiguration()
+		  .forDomainType(Workers.class )
+		  .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
+		  .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+		  
+		  
 		exposeIds(config);
 
 	}
@@ -67,5 +76,12 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 		config.exposeIdsFor(domainTypes);
 	}
 	
+	
 
-}
+	 
+	    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+	        config.exposeIdsFor(Workers.class);
+	    }
+
+	  
+	    }
